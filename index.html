@@ -30,8 +30,28 @@
     justify-content: center;
     padding: max(24px, env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
   }
-  .wrap { width: 100%; max-width: 480px; }
+  /* Faint logo watermark. The PNG has a solid white background, so multiply
+     blending is what keeps it from showing as a pale rectangle. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("logo.png") no-repeat center;
+    background-size: min(85%, 520px);
+    mix-blend-mode: multiply;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .wrap { width: 100%; max-width: 480px; position: relative; }
   .header { text-align: center; margin-bottom: 24px; }
+  .logo {
+    display: block;
+    width: 210px;
+    max-width: 65%;
+    height: auto;
+    margin: 0 auto 16px;
+    border-radius: 10px;
+  }
   .header h1 { font-size: 1.4rem; margin: 12px 0 6px; }
   .header p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.55; padding: 0 8px; }
   .stars { font-size: 2rem; color: #fbbc04; letter-spacing: 3px; }
@@ -94,6 +114,7 @@
 <body>
 <div class="wrap">
   <div class="header">
+    <img class="logo" src="logo.png" alt="Klinik Medina">
     <div class="stars">★★★★★</div>
     <h1>Berpuas hati dengan Rawatan anda?</h1>
     <p>Tekan button copy dan page ini akan auto pergi ke Google review dan paste sahaja</p>
