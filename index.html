@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a73e8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Berikan Kami Ulasan Google</title>
+<style>
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1558b0;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #202124;
+    --muted: #5f6368;
+    --success: #188038;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: max(24px, env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+  }
+  .wrap { width: 100%; max-width: 480px; }
+  .header { text-align: center; margin-bottom: 24px; }
+  .header h1 { font-size: 1.4rem; margin: 12px 0 6px; }
+  .header p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.55; padding: 0 8px; }
+  .stars { font-size: 2rem; color: #fbbc04; letter-spacing: 3px; }
+  .preview {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .copy-btn {
+    display: block;
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+    min-height: 52px;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  .copy-btn:active { background: var(--primary-dark); transform: scale(0.97); }
+  .copy-btn.copied { background: var(--success); }
+  .hint {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 20px;
+    line-height: 1.5;
+    padding: 0 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="stars">★★★★★</div>
+    <h1>Berpuas hati dengan lawatan anda?</h1>
+    <p>Tekan butang di bawah — satu ayat akan dipilih secara automatik,<br>disalin, dan anda akan dibawa terus ke Google Reviews. Tampal sahaja!</p>
+  </div>
+
+  <div class="preview" id="preview">Tekan "Copy" untuk mula</div>
+
+  <button class="copy-btn" id="copyBtn">Copy</button>
+
+  <div class="hint">Anda akan dialihkan secara automatik selepas menyalin.</div>
+</div>
+
+<script>
+  const GOOGLE_REVIEW_LINK = "https://share.google/ejWe1V7zC8wOBptXV";
+
+  const PHRASES = [
+    "Perkhidmatan hebat dan kakitangan mesra!",
+    "Klinik bersih, masa menunggu singkat.",
+    "Doktor menerangkan semuanya dengan jelas.",
+    "Sangat mengesyorkan klinik ini!",
+    "Pasukan profesional dan penyayang."
+  ];
+
+  const btn = document.getElementById("copyBtn");
+  const preview = document.getElementById("preview");
+
+  btn.addEventListener("click", async () => {
+    const text = PHRASES[Math.floor(Math.random() * PHRASES.length)];
+    preview.textContent = text;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      window.location.href = GOOGLE_REVIEW_LINK;
+    }, 700);
+  });
+</script>
+</body>
+</html>
