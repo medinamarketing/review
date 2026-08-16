@@ -75,6 +75,20 @@
     line-height: 1.5;
     padding: 0 8px;
   }
+  .instruct {
+    display: none;
+    background: #e6f4ea;
+    border: 1px solid #b7e1c4;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--success);
+  }
+  .instruct.show { display: block; }
+  .instruct strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -89,11 +103,18 @@
 
   <button class="copy-btn" id="copyBtn">Copy</button>
 
+  <div class="instruct" id="instruct">
+    <strong>✓ Ayat sudah disalin!</strong>
+    Membuka Google Reviews… Tekan kotak ulasan, kemudian pilih <strong style="display:inline">Tampal / Paste</strong>.
+  </div>
+
   <div class="hint">Anda akan dialihkan secara automatik selepas menyalin.</div>
 </div>
 
 <script>
-  const GOOGLE_REVIEW_LINK = "https://share.google/ejWe1V7zC8wOBptXV";
+  // Opens the "Write a review" box directly for Klinik Medina Kuala Nerus.
+  // The plain share.google link only opened the listing page.
+  const GOOGLE_REVIEW_LINK = "https://search.google.com/local/writereview?placeid=ChIJoQPfPHu9tzER0QWo2-ws4yk";
 
   const PHRASES = [
     "Perkhidmatan hebat dan kakitangan mesra!",
@@ -105,6 +126,7 @@
 
   const btn = document.getElementById("copyBtn");
   const preview = document.getElementById("preview");
+  const instruct = document.getElementById("instruct");
 
   btn.addEventListener("click", async () => {
     const text = PHRASES[Math.floor(Math.random() * PHRASES.length)];
@@ -125,9 +147,10 @@
 
     btn.textContent = "Copied!";
     btn.classList.add("copied");
+    instruct.classList.add("show");
     setTimeout(() => {
       window.location.href = GOOGLE_REVIEW_LINK;
-    }, 700);
+    }, 1800);
   });
 </script>
 </body>
