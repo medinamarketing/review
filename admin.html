@@ -90,6 +90,10 @@
     background: #FDECEA; border: 1px solid #F6CFCA; border-radius: 12px; padding: 12px 14px;
   }
   .error.show { display: block; }
+  .back {
+    display: block; text-align: center; margin-top: 18px;
+    font-size: 0.88rem; font-weight: 600; color: var(--muted); text-decoration: none;
+  }
   .hidden { display: none; }
 </style>
 </head>
@@ -109,6 +113,7 @@
         <button type="submit" class="primary-btn" id="loginBtn">Log Masuk</button>
       </form>
     </div>
+    <a class="back" href="index.html">&larr; Kembali</a>
   </div>
 
   <!-- LIST -->
@@ -128,6 +133,7 @@
 
     <div class="error" id="listError"></div>
     <div id="items"></div>
+    <a class="back" href="index.html">&larr; Kembali</a>
   </div>
 
 </div>
