@@ -1,163 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1a73e8">
+<meta name="theme-color" content="#0E4257">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Berikan Kami Ulasan Google</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #1a73e8;
-    --primary-dark: #1558b0;
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --text: #202124;
-    --muted: #5f6368;
-    --success: #188038;
+    --navy: #0E4257;
+    --navy-dark: #0A3243;
+    --mint: #3FBF9F;
+    --gold: #F5B921;
+    --bg: #EEF2F4;
+    --card: #FFFFFF;
+    --text: #14262F;
+    --muted: #647984;
+    --line: #E3E9EC;
+    --shadow: 0 1px 2px rgba(14,66,87,.04), 0 8px 24px rgba(14,66,87,.07);
+    --shadow-btn: 0 4px 14px rgba(14,66,87,.22);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
   body {
     margin: 0;
     min-height: 100dvh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
+    background-image:
+      radial-gradient(1100px 460px at 50% -220px, rgba(63,191,159,.16), transparent 70%),
+      radial-gradient(760px 340px at 50% -120px, rgba(14,66,87,.10), transparent 70%);
+    background-repeat: no-repeat;
     color: var(--text);
     display: flex;
     justify-content: center;
-    padding: max(24px, env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+    padding: max(28px, env(safe-area-inset-top)) 18px calc(36px + env(safe-area-inset-bottom));
+    -webkit-font-smoothing: antialiased;
   }
-  /* Faint logo watermark. The PNG has a solid white background, so multiply
-     blending is what keeps it from showing as a pale rectangle. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: url("logo.png") no-repeat center;
-    background-size: min(85%, 520px);
-    mix-blend-mode: multiply;
-    opacity: 0.08;
-    pointer-events: none;
-  }
-  .wrap { width: 100%; max-width: 480px; position: relative; }
-  .header { text-align: center; margin-bottom: 24px; }
-  .logo {
-    display: block;
-    width: 210px;
-    max-width: 65%;
-    height: auto;
-    margin: 0 auto 16px;
-    border-radius: 10px;
-  }
-  .header h1 { font-size: 1.4rem; margin: 12px 0 6px; }
-  .header p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.55; padding: 0 8px; }
-  .stars { font-size: 2rem; color: #fbbc04; letter-spacing: 3px; }
-  .preview {
+  .wrap { width: 100%; max-width: 440px; }
+
+  /* ---- header ---- */
+  .header { text-align: center; margin-bottom: 22px; }
+  .logo-frame {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: var(--card);
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 14px 20px;
+    box-shadow: var(--shadow);
     margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    text-align: center;
-    font-size: 1.05rem;
-    line-height: 1.5;
-    min-height: 64px;
+  }
+  .logo { display: block; width: 168px; max-width: 58vw; height: auto; }
+
+  .stars { display: flex; justify-content: center; gap: 5px; margin-bottom: 14px; }
+  .stars svg { width: 26px; height: 26px; display: block; filter: drop-shadow(0 1px 2px rgba(245,185,33,.35)); }
+
+  h1 {
+    font-size: 1.42rem;
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    color: var(--navy);
+  }
+  .lede {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0 auto;
+    max-width: 33ch;
+  }
+  .lede strong { color: var(--navy); font-weight: 700; }
+
+  /* ---- steps ---- */
+  .steps {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    margin: 22px 0 16px;
   }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .step i {
+    display: grid;
+    place-items: center;
+    width: 21px; height: 21px;
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow: 0 1px 3px rgba(14,66,87,.12);
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .step-line { width: 16px; height: 1.5px; background: var(--line); border-radius: 2px; }
+
+  /* ---- phrase card ---- */
+  .preview {
+    position: relative;
+    background: var(--card);
+    border-radius: 18px;
+    padding: 26px 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--text);
+    min-height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow .2s ease;
+  }
+  .preview::before {
+    content: "\201C";
+    position: absolute;
+    top: 4px; left: 16px;
+    font-size: 3.4rem;
+    line-height: 1;
+    color: var(--mint);
+    opacity: .28;
+    font-family: Georgia, serif;
+  }
+  .preview.empty { color: var(--muted); font-size: 0.95rem; }
+  .preview.filled { box-shadow: 0 1px 2px rgba(14,66,87,.04), 0 10px 30px rgba(63,191,159,.22); }
+
+  /* ---- buttons ---- */
   .copy-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
     width: 100%;
-    background: var(--primary);
+    background: linear-gradient(135deg, #12566F 0%, var(--navy) 60%, #0A3141 100%);
     color: #fff;
     border: none;
-    border-radius: 12px;
-    padding: 16px 18px;
-    font-size: 1.1rem;
+    border-radius: 15px;
+    padding: 17px 18px;
+    font-family: inherit;
+    font-size: 1.06rem;
     font-weight: 700;
+    letter-spacing: -0.01em;
     cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
-    min-height: 52px;
-    touch-action: manipulation;
+    min-height: 56px;
+    box-shadow: var(--shadow-btn);
+    transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
     user-select: none;
   }
-  .copy-btn:active { background: var(--primary-dark); transform: scale(0.97); }
-  .copy-btn.copied { background: var(--success); }
+  .copy-btn svg { width: 19px; height: 19px; flex: none; }
+  .copy-btn:active { transform: translateY(1px) scale(.985); box-shadow: 0 2px 8px rgba(14,66,87,.2); }
+  .copy-btn.copied {
+    background: linear-gradient(135deg, #45CBA9 0%, var(--mint) 60%, #2FA98A 100%);
+    box-shadow: 0 4px 14px rgba(63,191,159,.34);
+  }
+
   .aduan-btn {
     display: block;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 11px;
     background: transparent;
     color: var(--muted);
-    border: 1px solid #dadce0;
-    border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 14px 18px;
     font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
     text-align: center;
     text-decoration: none;
-    transition: background 0.15s ease, transform 0.1s ease;
-    touch-action: manipulation;
+    transition: background .15s ease, border-color .15s ease, transform .12s ease;
   }
-  .aduan-btn:active { background: #eceff1; transform: scale(0.98); }
+  .aduan-btn:active { background: #E7ECEF; transform: scale(.985); }
+
+  /* ---- feedback + footer ---- */
+  .instruct {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    background: #E7F7F1;
+    border: 1px solid #BEE9DA;
+    border-radius: 15px;
+    padding: 15px 16px;
+    margin-top: 14px;
+    text-align: left;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #14705A;
+  }
+  .instruct.show { display: flex; }
+  .instruct .tick {
+    flex: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: #fff;
+    display: grid; place-items: center;
+    font-size: 0.7rem; font-weight: 800;
+    margin-top: 1px;
+  }
+  .instruct b { display: block; font-weight: 800; margin-bottom: 2px; }
+
   .hint {
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--muted);
     margin-top: 20px;
-    line-height: 1.5;
-    padding: 0 8px;
+    line-height: 1.6;
   }
+  .hint strong { color: var(--navy); font-weight: 700; }
+
   .admin-link {
     display: block;
     text-align: center;
-    margin-top: 26px;
-    font-size: 0.72rem;
-    color: #b0b4b8;
+    margin-top: 30px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #A9B7BE;
     text-decoration: none;
-    letter-spacing: 0.03em;
+    letter-spacing: .06em;
+    text-transform: uppercase;
   }
-  .instruct {
-    display: none;
-    background: #e6f4ea;
-    border: 1px solid #b7e1c4;
-    border-radius: 12px;
-    padding: 16px;
-    margin-top: 16px;
-    text-align: center;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--success);
+
+  @media (max-width: 360px) {
+    h1 { font-size: 1.3rem; }
+    .steps { gap: 5px; }
+    .step { font-size: 0.7rem; }
   }
-  .instruct.show { display: block; }
-  .instruct strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <div class="header">
-    <img class="logo" src="logo.png" alt="Klinik Medina">
-    <div class="stars">★★★★★</div>
-    <h1>Berpuas hati dengan Rawatan anda?</h1>
-    <p>Tekan butang <strong>Copy</strong> — kami terus bawa anda ke Google Review.<br>Hanya tekan <strong>paste</strong> sahaja di ruangan ulasan.</p>
+    <span class="logo-frame"><img class="logo" src="logo.png" alt="Klinik Medina"></span>
+
+    <div class="stars" aria-label="5 bintang">
+      <svg viewBox="0 0 24 24" fill="#F5B921"><path d="M12 2.6l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.4l-5.8 3.06 1.11-6.46-4.7-4.58 6.49-.94z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F5B921"><path d="M12 2.6l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.4l-5.8 3.06 1.11-6.46-4.7-4.58 6.49-.94z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F5B921"><path d="M12 2.6l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.4l-5.8 3.06 1.11-6.46-4.7-4.58 6.49-.94z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F5B921"><path d="M12 2.6l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.4l-5.8 3.06 1.11-6.46-4.7-4.58 6.49-.94z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F5B921"><path d="M12 2.6l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.4l-5.8 3.06 1.11-6.46-4.7-4.58 6.49-.94z"/></svg>
+    </div>
+
+    <h1>Berpuas hati dengan rawatan anda?</h1>
+    <p class="lede">Bantu kami dengan satu ulasan Google &mdash; hanya mengambil masa <strong>10 saat</strong>.</p>
   </div>
 
-  <div class="preview" id="preview">Tekan "Copy" untuk mula</div>
+  <div class="steps">
+    <span class="step"><i>1</i> Tekan Copy</span>
+    <span class="step-line"></span>
+    <span class="step"><i>2</i> Buka Google</span>
+    <span class="step-line"></span>
+    <span class="step"><i>3</i> Paste</span>
+  </div>
 
-  <button class="copy-btn" id="copyBtn">Copy</button>
+  <div class="preview empty" id="preview">Tekan butang di bawah untuk mula</div>
+
+  <button class="copy-btn" id="copyBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    <span id="copyLabel">Copy Ulasan</span>
+  </button>
+
   <a class="aduan-btn" href="aduan.html">Kurang berpuas hati? Hantar aduan</a>
 
   <div class="instruct" id="instruct">
-    <strong>✓ Ayat sudah disalin!</strong>
-    Membuka Google Reviews… <strong style="display:inline">Tekan lama</strong> pada kotak ulasan, kemudian pilih <strong style="display:inline">Paste</strong>.
+    <span class="tick">&#10003;</span>
+    <span><b>Ayat sudah disalin!</b>Membuka Google Review&hellip; hanya tekan <strong>paste</strong> di ruangan ulasan.</span>
   </div>
 
-  <div class="hint">Tekan lama (long press) pada kotak ulasan Google → dan <strong>Paste</strong>.</div>
+  <div class="hint">Tekan lama (long press) pada kotak ulasan Google &rarr; dan <strong>Paste</strong>.</div>
 
   <a class="admin-link" href="admin.html">Admin</a>
 </div>
@@ -215,12 +340,15 @@
   ];
 
   const btn = document.getElementById("copyBtn");
+  const label = document.getElementById("copyLabel");
   const preview = document.getElementById("preview");
   const instruct = document.getElementById("instruct");
 
   btn.addEventListener("click", async () => {
     const text = PHRASES[Math.floor(Math.random() * PHRASES.length)];
     preview.textContent = text;
+    preview.classList.remove("empty");
+    preview.classList.add("filled");
 
     try {
       await navigator.clipboard.writeText(text);
@@ -235,7 +363,7 @@
       document.body.removeChild(ta);
     }
 
-    btn.textContent = "Copied!";
+    label.textContent = "Disalin!";
     btn.classList.add("copied");
     instruct.classList.add("show");
 
