@@ -123,6 +123,7 @@
     gap: 7px;
     transition: background .2s ease;
   }
+  .preview.empty .preview-text strong { color: var(--navy); font-weight: 700; }
   .preview-label {
     font-size: 0.66rem;
     font-weight: 800;
@@ -135,7 +136,8 @@
     line-height: 1.6;
     color: var(--text);
   }
-  .preview.empty .preview-text { color: var(--muted); font-size: 0.93rem; }
+  .preview.empty .preview-label { display: none; }
+  .preview.empty .preview-text { color: var(--muted); font-size: 0.94rem; line-height: 1.65; }
   .preview.filled { background: #E4F4EE; }
 
   /* ---- buttons ---- */
@@ -275,7 +277,7 @@
 
   <div class="preview empty" id="preview">
     <span class="preview-label">Ayat ulasan</span>
-    <span class="preview-text" id="previewText">Tekan butang di bawah untuk mula</span>
+    <span class="preview-text" id="previewText">Tekan button <strong>Copy</strong> untuk Google Review dan sekiranya ada aduan tekan button <strong>Aduan</strong>.</span>
   </div>
 
   <button class="copy-btn" id="copyBtn">
