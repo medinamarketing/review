@@ -110,33 +110,32 @@
 
   /* ---- phrase card ---- */
   .preview {
-    position: relative;
     background: #E9EFF2;
     border-left: 3px solid var(--mint);
     border-radius: 6px 16px 16px 6px;
-    padding: 22px 20px 22px 26px;
+    padding: 18px 20px;
     margin-bottom: 20px;
     text-align: left;
-    font-size: 1.02rem;
-    line-height: 1.65;
-    color: var(--text);
-    font-style: italic;
     min-height: 96px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
     transition: background .2s ease;
   }
-  .preview::before {
-    content: "C";
-    position: absolute;
-    top: 2px; left: 12px;
-    font-size: 2.6rem;
-    line-height: 1;
+  .preview-label {
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
     color: var(--mint);
-    opacity: .34;
-    font-family: Georgia, serif;
   }
-  .preview.empty { color: var(--muted); font-size: 0.93rem; font-style: normal; }
+  .preview-text {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .preview.empty .preview-text { color: var(--muted); font-size: 0.93rem; }
   .preview.filled { background: #E4F4EE; }
 
   /* ---- buttons ---- */
@@ -274,7 +273,10 @@
     <span class="step"><i>3</i> Paste</span>
   </div>
 
-  <div class="preview empty" id="preview">Tekan butang di bawah untuk mula</div>
+  <div class="preview empty" id="preview">
+    <span class="preview-label">Ayat ulasan</span>
+    <span class="preview-text" id="previewText">Tekan butang di bawah untuk mula</span>
+  </div>
 
   <button class="copy-btn" id="copyBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -351,11 +353,12 @@
   const btn = document.getElementById("copyBtn");
   const label = document.getElementById("copyLabel");
   const preview = document.getElementById("preview");
+  const previewText = document.getElementById("previewText");
   const instruct = document.getElementById("instruct");
 
   btn.addEventListener("click", async () => {
     const text = PHRASES[Math.floor(Math.random() * PHRASES.length)];
-    preview.textContent = text;
+    previewText.textContent = text;
     preview.classList.remove("empty");
     preview.classList.add("filled");
 
