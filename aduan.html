@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a73e8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Aduan & Maklum Balas</title>
+<style>
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1558b0;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #202124;
+    --muted: #5f6368;
+    --success: #188038;
+    --border: #dadce0;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: max(24px, env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+  }
+  .wrap { width: 100%; max-width: 480px; }
+  .header { text-align: center; margin-bottom: 22px; }
+  .logo {
+    display: block;
+    width: 180px;
+    max-width: 55%;
+    height: auto;
+    margin: 0 auto 14px;
+    border-radius: 10px;
+  }
+  .header h1 { font-size: 1.35rem; margin: 10px 0 8px; }
+  .header p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.55; padding: 0 4px; }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .field { margin-bottom: 18px; }
+  .field:last-of-type { margin-bottom: 20px; }
+  input[type="date"], textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text);
+    background: #fff;
+  }
+  input[type="date"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
+  }
+  textarea { min-height: 150px; resize: vertical; line-height: 1.5; }
+  .sublabel { font-size: 0.8rem; color: var(--muted); font-weight: 400; margin-top: 6px; }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+    min-height: 52px;
+    touch-action: manipulation;
+  }
+  .submit-btn:active { background: var(--primary-dark); transform: scale(0.98); }
+  .submit-btn[disabled] { background: #9aa0a6; cursor: default; transform: none; }
+
+  .error {
+    display: none;
+    color: #c5221f;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .error.show { display: block; }
+
+  .done {
+    display: none;
+    text-align: center;
+    padding: 8px 4px;
+  }
+  .done.show { display: block; }
+  .done .tick { font-size: 2.6rem; color: var(--success); line-height: 1; }
+  .done h2 { font-size: 1.2rem; margin: 12px 0 8px; color: var(--success); }
+  .done p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.6; }
+
+  .back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .privacy {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <img class="logo" src="logo.png" alt="Klinik Medina">
+    <h1>Aduan &amp; Maklum Balas</h1>
+    <p>Maaf sekiranya pengalaman anda kurang memuaskan. Sila kongsikan dengan kami supaya kami boleh memperbaikinya.</p>
+  </div>
+
+  <div class="card">
+    <form id="aduanForm" novalidate>
+      <div class="error" id="error"></div>
+
+      <div class="field">
+        <label for="tarikh">Tarikh lawatan</label>
+        <input type="date" id="tarikh" name="tarikh" required>
+      </div>
+
+      <div class="field">
+        <label for="aduan">Aduan anda</label>
+        <textarea id="aduan" name="aduan" required
+          placeholder="Ceritakan apa yang berlaku semasa lawatan anda..."></textarea>
+        <div class="sublabel">Tidak perlu tulis nama — aduan ini boleh dihantar tanpa nama.</div>
+      </div>
+
+      <input type="text" id="emel" name="emel" tabindex="-1" autocomplete="off"
+        aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+      <button type="submit" class="submit-btn" id="submitBtn">Hantar Aduan</button>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick">✓</div>
+      <h2>Terima kasih</h2>
+      <p>Aduan anda telah dihantar dan akan disemak oleh pihak pengurusan klinik.</p>
+    </div>
+  </div>
+
+  <div class="privacy">Aduan ini dihantar terus kepada pengurusan klinik sahaja.</div>
+  <a class="back" href="index.html">← Kembali</a>
+</div>
+
+<script>
+  // Supabase project "Medina Aduan". This is the publishable key, which is meant
+  // to be public — row level security is what protects the data: this key may
+  // INSERT a complaint but can never read one back.
+  const SUPABASE_URL = "https://ibnbeehskwikflxbckqp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_FSnTbifN8kV16JkyNR5vVg_W_Ak0Wix";
+
+  // Simple throttle so one device cannot flood the table.
+  const MIN_GAP_MS = 60 * 1000;
+
+  const form = document.getElementById("aduanForm");
+  const errorBox = document.getElementById("error");
+  const submitBtn = document.getElementById("submitBtn");
+
+  // Default the date to today — most complaints are about the visit just made.
+  document.getElementById("tarikh").value = new Date().toISOString().slice(0, 10);
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add("show");
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorBox.classList.remove("show");
+
+    const tarikh = document.getElementById("tarikh").value;
+    const aduan = document.getElementById("aduan").value.trim();
+
+    if (!aduan) {
+      showError("Sila tulis aduan anda sebelum menghantar.");
+      return;
+    }
+    if (!tarikh) {
+      showError("Sila pilih tarikh lawatan anda.");
+      return;
+    }
+    // Honeypot: real patients never see this field, bots fill it in.
+    if (document.getElementById("emel").value) {
+      form.style.display = "none";
+      document.getElementById("done").classList.add("show");
+      return;
+    }
+
+    try {
+      const last = Number(localStorage.getItem("aduanLastSent") || 0);
+      if (Date.now() - last < MIN_GAP_MS) {
+        showError("Aduan anda baru sahaja dihantar. Sila tunggu sebentar sebelum menghantar lagi.");
+        return;
+      }
+    } catch (e) { /* private browsing — skip the throttle */ }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Menghantar…";
+
+    try {
+      await sendAduan({ tarikh, aduan });
+      form.style.display = "none";
+      document.getElementById("done").classList.add("show");
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Hantar Aduan";
+      showError("Maaf, aduan gagal dihantar. Sila cuba lagi atau beritahu kaunter klinik.");
+    }
+  });
+
+  async function sendAduan(data) {
+    const res = await fetch(SUPABASE_URL + "/rest/v1/aduan", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ tarikh_lawatan: data.tarikh, aduan: data.aduan })
+    });
+    if (!res.ok) throw new Error("insert failed: " + res.status + " " + await res.text());
+    try { localStorage.setItem("aduanLastSent", String(Date.now())); } catch (e) {}
+  }
+</script>
+</body>
+</html>

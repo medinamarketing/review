@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Aduan — Admin</title>
+<style>
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1558b0;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #202124;
+    --muted: #5f6368;
+    --success: #188038;
+    --danger: #c5221f;
+    --border: #dadce0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 48px;
+  }
+  .wrap { width: 100%; max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.35rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 22px; }
+
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+  input[type="email"], input[type="password"] {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 16px;
+  }
+  input:focus { outline: none; border-color: var(--primary); }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  button:active { transform: scale(0.98); }
+  .primary-btn {
+    display: block; width: 100%;
+    background: var(--primary); color: #fff;
+    padding: 15px; font-size: 1.05rem; font-weight: 700;
+  }
+  .primary-btn[disabled] { background: #9aa0a6; cursor: default; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .logout { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 9px 14px; font-size: 0.9rem; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab {
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    padding: 9px 16px; font-size: 0.95rem; font-weight: 600;
+  }
+  .tab.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  .aduan-item {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+  .meta .badge {
+    display: inline-block; border-radius: 999px; padding: 2px 9px;
+    font-weight: 700; font-size: 0.72rem; margin-left: 6px;
+  }
+  .badge.baru { background: #fce8e6; color: var(--danger); }
+  .badge.selesai { background: #e6f4ea; color: var(--success); }
+  .body-text { font-size: 1rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+  .actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .act {
+    background: transparent; border: 1px solid var(--border);
+    padding: 8px 14px; font-size: 0.88rem; font-weight: 600; color: var(--text);
+  }
+  .act.ok { color: var(--success); border-color: #b7e1c4; }
+  .act.del { color: var(--danger); border-color: #f5c6c4; }
+
+  .empty { text-align: center; color: var(--muted); padding: 40px 16px; font-size: 0.95rem; }
+  .error { color: var(--danger); font-size: 0.9rem; margin-bottom: 14px; display: none; line-height: 1.5; }
+  .error.show { display: block; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- LOGIN -->
+  <div id="loginView">
+    <h1>Aduan — Admin</h1>
+    <p class="sub">Masukkan kod untuk melihat aduan pesakit.</p>
+    <div class="card">
+      <form id="loginForm">
+        <div class="error" id="loginError"></div>
+        <label for="kod">Kod masuk</label>
+        <input type="password" id="kod" autocomplete="current-password"
+          inputmode="text" placeholder="Masukkan kod" required>
+        <button type="submit" class="primary-btn" id="loginBtn">Log Masuk</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div id="listView" class="hidden">
+    <div class="topbar">
+      <div>
+        <h1>Aduan Pesakit</h1>
+        <p class="sub" id="who" style="margin:0"></p>
+      </div>
+      <button class="logout" id="logoutBtn">Log Keluar</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" data-status="baru">Baru</button>
+      <button class="tab" data-status="selesai">Selesai</button>
+    </div>
+
+    <div class="error" id="listError"></div>
+    <div id="items"></div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL = "https://ibnbeehskwikflxbckqp.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_FSnTbifN8kV16JkyNR5vVg_W_Ak0Wix";
+
+  // The staff account. Only the code (its password) is typed in — the email is
+  // not a secret, and the database still requires a real login before it will
+  // release any complaint.
+  const ADMIN_EMAIL = "medina@gmail.com";
+
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const loginView = document.getElementById("loginView");
+  const listView = document.getElementById("listView");
+  const items = document.getElementById("items");
+  const listError = document.getElementById("listError");
+  const loginError = document.getElementById("loginError");
+
+  let currentStatus = "baru";
+
+  function fmtStamp(iso) {
+    return new Date(iso).toLocaleDateString("ms-MY", { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  function fmtDay(d) {
+    return new Date(d + "T00:00:00").toLocaleDateString("ms-MY", { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  async function showList() {
+    loginView.classList.add("hidden");
+    listView.classList.remove("hidden");
+    const { data: { user } } = await db.auth.getUser();
+    document.getElementById("who").textContent = user ? user.email : "";
+    await load();
+  }
+
+  async function load() {
+    listError.classList.remove("show");
+    items.innerHTML = '<div class="empty">Memuatkan…</div>';
+
+    const { data, error } = await db
+      .from("aduan")
+      .select("*")
+      .eq("status", currentStatus)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      items.innerHTML = "";
+      listError.textContent = "Gagal memuatkan aduan: " + error.message;
+      listError.classList.add("show");
+      return;
+    }
+
+    if (!data.length) {
+      items.innerHTML = '<div class="empty">' +
+        (currentStatus === "baru" ? "Tiada aduan baru. ✓" : "Tiada aduan selesai lagi.") +
+        "</div>";
+      return;
+    }
+
+    items.innerHTML = "";
+    data.forEach((row) => {
+      const el = document.createElement("div");
+      el.className = "aduan-item";
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = "Dihantar " + fmtStamp(row.created_at) + " · Lawatan " + fmtDay(row.tarikh_lawatan);
+      const badge = document.createElement("span");
+      badge.className = "badge " + row.status;
+      badge.textContent = row.status === "baru" ? "BARU" : "SELESAI";
+      meta.appendChild(badge);
+
+      // textContent, never innerHTML — a complaint is untrusted text.
+      const body = document.createElement("div");
+      body.className = "body-text";
+      body.textContent = row.aduan;
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const toggle = document.createElement("button");
+      toggle.className = "act ok";
+      toggle.textContent = row.status === "baru" ? "Tandai Selesai" : "Buka Semula";
+      toggle.addEventListener("click", () => setStatus(row.id, row.status === "baru" ? "selesai" : "baru"));
+
+      const del = document.createElement("button");
+      del.className = "act del";
+      del.textContent = "Padam";
+      del.addEventListener("click", () => remove(row.id));
+
+      actions.appendChild(toggle);
+      actions.appendChild(del);
+
+      el.appendChild(meta);
+      el.appendChild(body);
+      el.appendChild(actions);
+      items.appendChild(el);
+    });
+  }
+
+  async function setStatus(id, status) {
+    const { error } = await db.from("aduan").update({ status }).eq("id", id);
+    if (error) {
+      listError.textContent = "Gagal mengemas kini: " + error.message;
+      listError.classList.add("show");
+      return;
+    }
+    load();
+  }
+
+  async function remove(id) {
+    if (!confirm("Padam aduan ini terus? Tindakan ini tidak boleh dibatalkan.")) return;
+    const { error } = await db.from("aduan").delete().eq("id", id);
+    if (error) {
+      listError.textContent = "Gagal memadam: " + error.message;
+      listError.classList.add("show");
+      return;
+    }
+    load();
+  }
+
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((t) => t.classList.remove("on"));
+      tab.classList.add("on");
+      currentStatus = tab.dataset.status;
+      load();
+    });
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    loginError.classList.remove("show");
+    const btn = document.getElementById("loginBtn");
+    btn.disabled = true;
+    btn.textContent = "Sedang log masuk…";
+
+    const { error } = await db.auth.signInWithPassword({
+      email: ADMIN_EMAIL,
+      password: document.getElementById("kod").value
+    });
+
+    btn.disabled = false;
+    btn.textContent = "Log Masuk";
+
+    if (error) {
+      loginError.textContent = "Kod salah. Sila cuba lagi.";
+      loginError.classList.add("show");
+      return;
+    }
+    showList();
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await db.auth.signOut();
+    location.reload();
+  });
+
+  // Resume an existing session so a refresh does not force another login.
+  const { data: { session } } = await db.auth.getSession();
+  if (session) showList();
+</script>
+</body>
+</html>

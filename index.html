@@ -87,6 +87,24 @@
   }
   .copy-btn:active { background: var(--primary-dark); transform: scale(0.97); }
   .copy-btn.copied { background: var(--success); }
+  .aduan-btn {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid #dadce0;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.1s ease;
+    touch-action: manipulation;
+  }
+  .aduan-btn:active { background: #eceff1; transform: scale(0.98); }
   .hint {
     text-align: center;
     font-size: 0.85rem;
@@ -94,6 +112,15 @@
     margin-top: 20px;
     line-height: 1.5;
     padding: 0 8px;
+  }
+  .admin-link {
+    display: block;
+    text-align: center;
+    margin-top: 26px;
+    font-size: 0.72rem;
+    color: #b0b4b8;
+    text-decoration: none;
+    letter-spacing: 0.03em;
   }
   .instruct {
     display: none;
@@ -123,6 +150,7 @@
   <div class="preview" id="preview">Tekan "Copy" untuk mula</div>
 
   <button class="copy-btn" id="copyBtn">Copy</button>
+  <a class="aduan-btn" href="aduan.html">Kurang berpuas hati? Hantar aduan</a>
 
   <div class="instruct" id="instruct">
     <strong>✓ Ayat sudah disalin!</strong>
@@ -130,6 +158,8 @@
   </div>
 
   <div class="hint">Tekan lama (long press) pada kotak ulasan Google → dan <strong>Paste</strong>.</div>
+
+  <a class="admin-link" href="admin.html">Admin</a>
 </div>
 
 <script>
