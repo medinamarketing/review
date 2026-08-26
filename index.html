@@ -117,7 +117,7 @@
     <img class="logo" src="logo.png" alt="Klinik Medina">
     <div class="stars">★★★★★</div>
     <h1>Berpuas hati dengan Rawatan anda?</h1>
-    <p>Tekan button copy dan page ini akan auto pergi ke Google review dan paste sahaja</p>
+    <p>Tekan butang <strong>Copy</strong> — kami terus bawa anda ke Google Review.<br>Hanya tekan <strong>paste</strong> sahaja di ruangan ulasan.</p>
   </div>
 
   <div class="preview" id="preview">Tekan "Copy" untuk mula</div>
@@ -126,10 +126,10 @@
 
   <div class="instruct" id="instruct">
     <strong>✓ Ayat sudah disalin!</strong>
-    Membuka Google Reviews… Tekan kotak ulasan, kemudian pilih <strong style="display:inline">Tampal / Paste</strong>.
+    Membuka Google Reviews… <strong style="display:inline">Tekan lama</strong> pada kotak ulasan, kemudian pilih <strong style="display:inline">Paste</strong>.
   </div>
 
-  <div class="hint">Anda akan dialihkan secara automatik selepas tekan copy.</div>
+  <div class="hint">Tekan lama (long press) pada kotak ulasan Google → dan <strong>Paste</strong>.</div>
 </div>
 
 <script>
@@ -153,7 +153,28 @@
     "Sangat selesa berurusan di klinik ini",
     "Klinik yang sangat recommended. Akan datang lagi",
     "Sangat puas hati dengan layanan di sini.",
-    "Pengalaman datang sini sangat memuaskan"
+    "Pengalaman datang sini sangat memuaskan",
+    "Servis sangat baik dan staf pun mesra. Klinik bersih dan selesa. Recommended!",
+    "Excellent service from the team. The clinic is clean, well-organized and comfortable.",
+    "Suka sangat dengan layanan dekat klinik ni. Semua staff sangat lembut, friendly dan senang berurusan",
+    "First time datang sini dan honestly sangat puas hati.",
+    "Really good service!",
+    "Sangat puas hati dengan consultation dan layanan yang diberikan",
+    "Urusan di klinik sangat mudah dan tidak menyusahkan",
+    "Tempat yang selesa untuk mendapatkan rawatan dan pemeriksaan",
+    "Staff sangat responsif dan sentiasa bersedia membantu apabila diperlukan",
+    "Sangat mudah berkomunikasi dengan doktor dan staff",
+    "Terima kasih kepada doktor dan staff kerana memberikan layanan yang begitu baik",
+    "thank you",
+    "Very friendly and helpful team throughout my visit",
+    "A welcoming environment with great patient care",
+    "The consultation was thorough and all my questions were addressed patiently",
+    "I felt well taken care of from the moment I arrived until the end of my consultation",
+    "I felt comfortable speaking with the doctor and sharing my concerns.",
+    "Thank you to the doctor and staff for making my visit a comfortable one",
+    "Would definitely consider coming back for future check-ups",
+    "The team was amazing and made me feel comfortable",
+    "Really appreciate the friendly service and attentive care"
   ];
 
   const btn = document.getElementById("copyBtn");
@@ -180,9 +201,12 @@
     btn.textContent = "Copied!";
     btn.classList.add("copied");
     instruct.classList.add("show");
+
+    // Go immediately: while the clipboard is still fresh, most phone keyboards
+    // offer a one-tap "Paste" chip the moment the review box is focused.
     setTimeout(() => {
       window.location.href = GOOGLE_REVIEW_LINK;
-    }, 1800);
+    }, 250);
   });
 </script>
 </body>
