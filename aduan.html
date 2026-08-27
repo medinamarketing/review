@@ -2,14 +2,15 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0E4257">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Aduan &amp; Maklum Balas</title>
+<link rel="apple-touch-icon" href="logo-sm.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #0E4257;
@@ -74,7 +75,7 @@
     box-shadow: 0 0 0 3px rgba(63,191,159,.16);
   }
   textarea { min-height: 156px; resize: vertical; line-height: 1.6; }
-  .sublabel { font-size: 0.79rem; color: var(--muted); font-weight: 500; margin-top: 8px; line-height: 1.5; }
+  .sublabel { font-size: 0.79rem; color: var(--muted); font-weight: 400; margin-top: 8px; line-height: 1.5; }
 
   .submit-btn {
     display: block; width: 100%;
@@ -115,14 +116,33 @@
   .privacy svg { width: 14px; height: 14px; flex: none; }
   .back {
     display: block; text-align: center; margin-top: 16px;
-    font-size: 0.88rem; font-weight: 600; color: var(--muted); text-decoration: none;
+    font-size: 0.88rem; font-weight: 700; color: var(--muted); text-decoration: none;
+  }
+
+  /* Shorter phones: tighten the header and the box so "Hantar Aduan" stays
+     on screen without scrolling. */
+  @media (max-height: 720px) {
+    body { padding-top: max(18px, env(safe-area-inset-top)); }
+    .logo { width: 112px; }
+    .logo-frame { padding: 9px 14px; margin-bottom: 12px; }
+    .header { margin-bottom: 16px; }
+    h1 { font-size: 1.18rem; margin-bottom: 7px; }
+    .lede { font-size: 0.87rem; }
+    .card { padding: 18px 16px; }
+    .field { margin-bottom: 14px; }
+    textarea { min-height: 104px; }
+    .sublabel { margin-top: 6px; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="header">
-    <span class="logo-frame"><img class="logo" src="logo.png" alt="Klinik Medina"></span>
+    <span class="logo-frame"><picture>
+        <source srcset="logo-sm.webp" type="image/webp">
+        <img class="logo" src="logo-sm.png" alt="Klinik Medina"
+          width="480" height="179" fetchpriority="high" decoding="async">
+      </picture></span>
     <h1>Aduan &amp; Maklum Balas</h1>
     <p class="lede">Maaf sekiranya pengalaman anda kurang memuaskan. Sila kongsikan dengan kami supaya kami boleh memperbaikinya.</p>
   </div>
