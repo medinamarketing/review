@@ -213,6 +213,12 @@
     text-transform: uppercase;
   }
 
+  /* Narrowest phones: shrink the button text a touch so the longer label
+     stays on one line instead of making the button two rows tall. */
+  @media (max-width: 345px) {
+    .copy-btn { font-size: 0.92rem; gap: 7px; padding-left: 12px; padding-right: 12px; }
+    .copy-btn svg { width: 17px; height: 17px; }
+  }
   @media (max-width: 360px) {
     h1 { font-size: 1.3rem; }
     .steps { gap: 5px; }
@@ -252,7 +258,7 @@
 
   <button class="copy-btn" id="copyBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-    <span id="copyLabel">Copy Ulasan</span>
+    <span id="copyLabel">Copy untuk ke Google Review</span>
   </button>
 
   <a class="aduan-btn" href="aduan.html">
